@@ -124,6 +124,16 @@ def get_main_task(file):
             "Position": row2["Response"],        # The position
             "Reaction Time": row1["Reaction Time"]
         }
+
+        if "now" in merged_row["Response"]:
+            merged_row["Deal Type"] = "Now price"
+        elif "get" in merged_row["Response"]:
+            merged_row["Deal Type"] = "BOGO"
+        elif r"% off" in merged_row["Response"]:
+            merged_row["Deal Type"] = "Percentage off"
+        else:
+            merged_row["Deal Type"] = "Dollar off"
+
         for k in range(2,7):
             followup = df.iloc[i + k]
             merged_row[followup["Object Name"]] = followup["Response"]
