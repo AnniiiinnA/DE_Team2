@@ -76,6 +76,15 @@ def get_fatigue_task(file):
             "Reaction Time": row1["Reaction Time"]
         }
 
+        if "now" in merged_row["Response"]:
+            merged_row["Deal Type"] = "Now price"
+        elif "get" in merged_row["Response"]:
+            merged_row["Deal Type"] = "BOGO"
+        elif r"% off" in merged_row["Response"]:
+            merged_row["Deal Type"] = "Percentage off"
+        else:
+            merged_row["Deal Type"] = "Dollar off"
+
         merged_rows.append(merged_row)
     merged_df = pd.DataFrame(merged_rows)
 
